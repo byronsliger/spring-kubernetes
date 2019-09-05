@@ -8,35 +8,40 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(value = "/greeting")
 public class GreetingController {
     @Autowired
     private GrettingRepository grettingRepository;
 
 
-    @GetMapping("/greeting")
+    @GetMapping()
     public Iterable<Greeting> all() {
         return grettingRepository.findAll();
     }
 
-    @GetMapping("/greeting/{id}")
+    @GetMapping("/{id}")
     public Greeting one(@PathVariable Long id) {
         return grettingRepository.findById(id).orElseThrow(() -> new NotFound(id));
     }
 
-    @PostMapping("/greeting")
+    @PostMapping()
     public Greeting newGreeting(@RequestBody Greeting newGreeting) {
+//        List<Otro> otros = Arrays.asList(new Otro("nombre 1"), new Otro("nombre 2"));
+//        newGreeting.setOtros(otros);
+//        return newGreeting;
         return grettingRepository.save(newGreeting);
     }
 
-    @PutMapping("/greeting")
+    @PutMapping()
     public Greeting replaceGreeting(@RequestBody Greeting newGreeting) {
         return grettingRepository.save(newGreeting);
     }
 
-    @DeleteMapping("/greeting/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         grettingRepository.deleteById(id);
     }
